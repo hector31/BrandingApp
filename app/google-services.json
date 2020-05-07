@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "705525057107",
+    "firebase_url": "https://brandingdatabase-452ff.firebaseio.com",
+    "project_id": "brandingdatabase-452ff",
+    "storage_bucket": "brandingdatabase-452ff.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:705525057107:android:debb7c3b288db7367e28a6",
+        "android_client_info": {
+          "package_name": "com.example.brandingapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "705525057107-9ti4r6dsu3gpobvamt6khlv1q2rvokri.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBggHSQnNHnHOv0U8dxVwLQ9J4O8LwKt3M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "705525057107-9ti4r6dsu3gpobvamt6khlv1q2rvokri.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
