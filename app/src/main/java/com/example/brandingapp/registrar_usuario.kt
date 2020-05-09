@@ -68,7 +68,7 @@ class registrar_usuario : AppCompatActivity() {
         Log.d(TAG,"barrio= $barrio")
         Log.d(TAG,"direccion= $direccion")
         Log.d(TAG,"fecha_conexion= $fecha_conexion")
-        Log.d(TAG,"nodo= $deco_selec")
+        Log.d(TAG,"decos= $deco_selec")
 
         if(barrio.isEmpty()||valor.isEmpty()||name.isEmpty()||cedula.isEmpty() || celular.isEmpty()||direccion.isEmpty()||fecha_conexion.isEmpty()||deco_selec.isEmpty()) // this is if passwor or email is empty
         {
@@ -115,7 +115,7 @@ class registrar_usuario : AppCompatActivity() {
 
     private fun spinner_deco() {
         option = findViewById(R.id.decos_spinner_adduser) as Spinner
-        val options = arrayOf("            1", "            2", "            3", "            4","            5")
+        val options = arrayOf("1", "2", "3", "4","5")
         option.adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, options)
         option.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -131,6 +131,6 @@ class registrar_usuario : AppCompatActivity() {
 }
 
 class User_database(val nombre: String, val cedula: String, val correo: String, val barrio: String, val celular: String, val direccion: String,
-                    val fecha_conexion: String,val deco:String,val valor_plan:String){
+                    val fecha_conexion: String,val decos:String,val valor_plan:String){
     constructor(): this ("","","","","","","","","")
 }

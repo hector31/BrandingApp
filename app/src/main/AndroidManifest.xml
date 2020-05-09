@@ -9,7 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".eliminar_usuario"></activity>
+        <activity android:name=".editar_usuario"></activity>
+        <activity android:name=".info_usuario" />
+        <activity android:name=".eliminar_usuario" />
         <activity android:name=".registrar_usuario" />
         <activity android:name=".ver_usuarios" />
         <activity android:name=".registrar_pago" />
