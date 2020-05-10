@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_info_usuario.*
 import java.io.Serializable
@@ -19,7 +20,7 @@ class info_usuario : AppCompatActivity() {
     val db = FirebaseFirestore.getInstance()
     var user = User_Info()
     val temporal_admin="Hector"
-
+    private lateinit var auth: FirebaseAuth
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_info_usuario)
@@ -34,6 +35,7 @@ class info_usuario : AppCompatActivity() {
         val day=c.get(Calendar.DAY_OF_MONTH)
         val cedula=intent.getStringExtra("Cedula")
         val query = db.collection("users").document(cedula!!)
+        val admin = FirebaseAuth.getInstance().currentUser
         query.get()
             .addOnSuccessListener {doc->
                 fecha_prox_textView_user_info.setText(doc.getString("fecha_conexion"))
@@ -51,13 +53,18 @@ class info_usuario : AppCompatActivity() {
             actualizar_fecha_button_user_info.setOnClickListener{
                 Toast.makeText(this,"Actualizando fecha...", Toast.LENGTH_SHORT).show()
                 db.collection("users").document(cedula!!)
-                query.update(
-                    "fecha_conexion",fecha_prox_textView_user_info.text.toString(),
-                    "ultima_modificacion",temporal_admin,
-                    "ultima_modificacion_fecha",currentDate
-                )
+                if (admin != null) {
+                    query.update(
+                        "fecha_conexion",fecha_prox_textView_user_info.text.toString(),
+                        "ultima_modificacion",admin.displayName,
+                        "ultima_modificacion_fecha",currentDate
+                    )
+
                 Toast.makeText(this,"Fecha actualizada con exito.", Toast.LENGTH_LONG).show()
                 show_infoUser(cedula_user)
+                }else{
+                    Toast.makeText(this,"Fallo identificacion de administrador intente nuevamente.", Toast.LENGTH_LONG).show()
+                }
             }
 
             dpd.show()
@@ -116,7 +123,7 @@ class info_usuario : AppCompatActivity() {
                     .plus("Celular= ").plus(celular).plus("\n").plus("Correo= ").plus(correo).plus("\n")
                     .plus("Barrio= ").plus(barrio).plus("\n").plus("Direccion= ").plus(direccion).plus("\n")
                     .plus("Ultima modificacion= ").plus(ultima_modificacion).plus("\n").plus("Fecha ultima modificacion= ").plus(ultima_modificacion_fecha).plus("\n")
-                    .plus("Nodo= ").plus(decos).plus("\n")
+                    .plus("Decos= ").plus(decos).plus("\n")
                     .plus("Fecha limite de pago= ").plus(fecha_conexion).plus("\n").plus("Valor plan= ").plus(valor)
 
             }

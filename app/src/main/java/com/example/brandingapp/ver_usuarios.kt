@@ -3,6 +3,7 @@ package com.example.brandingapp
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -107,6 +108,10 @@ class ver_usuarios : AppCompatActivity() {
                         DividerItemDecoration.VERTICAL
                     )
                 )
+            } .addOnFailureListener {
+                    e -> Log.w("Error editar_usuario", "Error writing document", e)
+                Toast.makeText(this, "Error al buscar, no tiene permisos administrador", Toast.LENGTH_SHORT).show()
+
             }
 
 
