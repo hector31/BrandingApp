@@ -59,7 +59,7 @@ class registrar_usuario : AppCompatActivity() {
         val direccion= direccion_edittext_adduser.text.toString()
         val fecha_conexion=fecha_conexion_textview_adduser.text.toString()
         val valor=valor_plan_editText_add_user.text.toString()
-
+        val fecha_inicio_user=fecha_conexion_textview_adduser.text.toString()
 
         Log.d(TAG,"name is = "+name)
         Log.d(TAG,"cedula= $cedula")
@@ -75,6 +75,8 @@ class registrar_usuario : AppCompatActivity() {
             Toast.makeText(this,"por favor ingrese todos los campos", Toast.LENGTH_SHORT).show()
             return
         }
+        val ultima_modificacion = "No se realiza"
+        val ultima_modificacion_fecha = "No se realiza"
         val user= User_database(
             name,
             cedula,
@@ -83,6 +85,9 @@ class registrar_usuario : AppCompatActivity() {
             celular,
             direccion,
             fecha_conexion,
+            ultima_modificacion,
+            ultima_modificacion_fecha,
+            fecha_inicio_user,
             deco_selec,
             valor
         )
@@ -131,6 +136,6 @@ class registrar_usuario : AppCompatActivity() {
 }
 
 class User_database(val nombre: String, val cedula: String, val correo: String, val barrio: String, val celular: String, val direccion: String,
-                    val fecha_conexion: String,val decos:String,val valor_plan:String){
-    constructor(): this ("","","","","","","","","")
+                    val fecha_conexion: String, val ultima_modificacion: String,val ultima_modificacion_fecha:String,val fecha_inicio_user:String,val decos:String,val valor_plan:String){
+    constructor(): this ("","","","","","","","","","","","")
 }

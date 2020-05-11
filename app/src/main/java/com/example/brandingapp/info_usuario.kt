@@ -3,24 +3,32 @@ package com.example.brandingapp
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_info_usuario.*
 import java.io.Serializable
+import java.sql.Time
+import java.sql.Timestamp
 import java.text.SimpleDateFormat
+import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.Year
 import java.time.format.DateTimeFormatter
 import java.util.*
 
+@Suppress("DEPRECATION")
 class info_usuario : AppCompatActivity() {
     val db = FirebaseFirestore.getInstance()
     var user = User_Info()
-    val temporal_admin="Hector"
     private lateinit var auth: FirebaseAuth
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_info_usuario)
@@ -36,29 +44,59 @@ class info_usuario : AppCompatActivity() {
         val cedula=intent.getStringExtra("Cedula")
         val query = db.collection("users").document(cedula!!)
         val admin = FirebaseAuth.getInstance().currentUser
+        var año=0
+        var mes=0
+        var dia=0
         query.get()
             .addOnSuccessListener {doc->
                 fecha_prox_textView_user_info.setText(doc.getString("fecha_conexion"))
+
             }
 
         fecha_prox_calendario_button_user_info.setOnClickListener{
+
             val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
             val currentDate = sdf.format(Date())
-
             val dpd= DatePickerDialog(this,
                 DatePickerDialog.OnDateSetListener{ view, mYear, mMonth, mDay->
                     fecha_prox_textView_user_info.setText(""+mDay+"/"+(mMonth+1)+"/"+mYear)
+                    dia=mDay
+                    mes=mMonth
+                    año=mYear
+
 
                 },year,month,day)
             actualizar_fecha_button_user_info.setOnClickListener{
+
+
                 Toast.makeText(this,"Actualizando fecha...", Toast.LENGTH_SHORT).show()
                 db.collection("users").document(cedula!!)
                 if (admin != null) {
-                    query.update(
-                        "fecha_conexion",fecha_prox_textView_user_info.text.toString(),
-                        "ultima_modificacion",admin.displayName,
-                        "ultima_modificacion_fecha",currentDate
-                    )
+                    if(dia!=0&&mes!=0&&año!=0){
+                        val date = Calendar.getInstance()
+                        date.set(Calendar.MONTH,mes)
+                        date.set(Calendar.DAY_OF_MONTH,dia)
+                        date.set(Calendar.YEAR,año)
+                        date.set(Calendar.HOUR, 0)
+                        date.set(Calendar.MINUTE, 0)
+                        date.set(Calendar.AM_PM, Calendar.AM)
+                        query.update(
+                            "fecha_conexion",fecha_prox_textView_user_info.text.toString(),
+                            "ultima_modificacion",admin.displayName,
+                            "ultima_modificacion_fecha",currentDate,
+                            "fecha_actualizacion", FieldValue.serverTimestamp(),
+                            "fecha_proximo_corte",date.time
+
+                        )}
+                    else{
+                        query.update(
+                            "fecha_conexion",fecha_prox_textView_user_info.text.toString(),
+                            "ultima_modificacion",admin.displayName,
+                            "ultima_modificacion_fecha",currentDate,
+                            "fecha_actualizacion", FieldValue.serverTimestamp()
+
+                        )
+                    }
 
                 Toast.makeText(this,"Fecha actualizada con exito.", Toast.LENGTH_LONG).show()
                 show_infoUser(cedula_user)

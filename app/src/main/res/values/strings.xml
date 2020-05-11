@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">BrandingApp</string>
+    <string name="app_name">GeekApp</string>
     <string name="title_activity_login">Ingresar</string>
     <string name="prompt_email">Correo</string>
     <string name="prompt_password">Password</string>

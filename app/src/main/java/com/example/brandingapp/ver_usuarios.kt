@@ -28,8 +28,8 @@ class ver_usuarios : AppCompatActivity() {
         setContentView(R.layout.activity_ver_usuarios)
         supportActionBar?.title = "Usuarios"//change name to action bar
 
-        adapter.setOnItemClickListener{item,view->
-            val userItem = item as UserItem
+        adapter.setOnItemClickListener{ item, _ ->
+            val userItem = item as UserItem2
             try {
                 val intent = Intent(this, info_usuario::class.java)
 
@@ -90,9 +90,8 @@ class ver_usuarios : AppCompatActivity() {
                     val user=doc.data
                     val name=user.get("nombre")
                     val cedula=user.get("cedula")
-                    //doc.reference.delete()
                     adapter.add(
-                        UserItem(
+                        UserItem2(
                             name as String,
                             cedula as String
                         )
@@ -121,7 +120,7 @@ class ver_usuarios : AppCompatActivity() {
 
 }
 
-class UserItem(val name: String, val cedula: String) : Item<GroupieViewHolder>(){
+class UserItem2(val name: String, val cedula:String) : Item<GroupieViewHolder>(){
 
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         viewHolder.itemView.username_textview_editusers.text= name

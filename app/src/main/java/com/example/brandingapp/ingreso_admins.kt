@@ -53,7 +53,7 @@ class ingreso_admins : AppCompatActivity() {
                     Log.d("Ingreso_admins", "signInWithEmail:success")
                     val user = auth.currentUser
                     val emailVerified = user?.isEmailVerified
-                    updateUI(user)
+
                     if(emailVerified==true){
                         updateUI(user)
                     }
